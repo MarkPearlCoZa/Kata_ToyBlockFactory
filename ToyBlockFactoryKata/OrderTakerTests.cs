@@ -19,6 +19,8 @@ namespace ToyBlockFactoryKata
                 consoleInput.Add("1 Bob Avenue, Auckland");
                 consoleInput.Add("19 Jan 2019");
                 consoleInput.Add("1");
+                consoleInput.Add("1");
+                consoleInput.Add("1");
                 
                 using StringReader sr = new StringReader(String.Join(Environment.NewLine,consoleInput));
                 Console.SetOut(sw);
@@ -38,6 +40,8 @@ namespace ToyBlockFactoryKata
                 Assert.Equal("19 Jan 2019", result.DueDate);
                 
                 Assert.Equal(1, result.NumberRedSquares);
+                Assert.Equal(1, result.NumberBlueSquares);
+                Assert.Equal(1, result.NumberYellowSquares);
             }
         }
     }
@@ -60,26 +64,33 @@ namespace ToyBlockFactoryKata
             var numberRedSquares = Convert.ToInt32(Console.ReadLine());
             
             Console.WriteLine("Please input the number of Blue Squares: ");
-            Console.WriteLine("Please input the number of Yellow Squares: ");
+            var numberBlueSquares = Convert.ToInt32(Console.ReadLine());
             
-            return new Order(name, address, dueDate, numberRedSquares);
+            Console.WriteLine("Please input the number of Yellow Squares: ");
+            var numberYellowSquares = Convert.ToInt32(Console.ReadLine());
+            
+            return new Order(name, address, dueDate, numberRedSquares, numberBlueSquares, numberYellowSquares);
         }
     }
 
     public class Order
     {
-        public Order(string name, string address, string dueDate, int numberRedSquares)
+        public Order(string name, string address, string dueDate, int numberRedSquares, int numberBlueSquares,
+            int numberYellowSquares)
         {
             Name = name;
             Address = address;
             DueDate = dueDate;
             NumberRedSquares = numberRedSquares;
+            NumberBlueSquares = numberBlueSquares;
+            NumberYellowSquares = numberYellowSquares;
         }
 
         public String Name { get; }
         public string Address { get; }
         public string DueDate { get; }
         public int NumberRedSquares { get; }
-        public int RedSquares { get; }
+        public int NumberBlueSquares { get; }
+        public int NumberYellowSquares { get; }
     }
 }
