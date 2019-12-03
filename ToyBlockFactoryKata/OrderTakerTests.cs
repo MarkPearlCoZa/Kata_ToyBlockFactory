@@ -27,6 +27,7 @@ namespace ToyBlockFactoryKata
                 Console.SetIn(sr);
                 var result = sut.GetOrder();
                 var consoleOutput = sw.ToString().Split(Environment.NewLine).ToList();
+                
                 Assert.Equal("Please input your Name: ", consoleOutput[0]);
                 Assert.Equal("Please input your Address: ", consoleOutput[1]);
                 Assert.Equal("Please input your Due Date: ", consoleOutput[2]);
@@ -34,6 +35,10 @@ namespace ToyBlockFactoryKata
                 Assert.Equal("Please input the number of Red Squares: ", consoleOutput[4]);
                 Assert.Equal("Please input the number of Blue Squares: ", consoleOutput[5]);
                 Assert.Equal("Please input the number of Yellow Squares: ", consoleOutput[6]);
+                Assert.Equal("", consoleOutput[7]);
+                Assert.Equal("Please input the number of Red Triangle: ", consoleOutput[8]);
+                Assert.Equal("Please input the number of Blue Triangle: ", consoleOutput[9]);
+                Assert.Equal("Please input the number of Yellow Triangle: ", consoleOutput[10]);
                 
                 Assert.Equal("Mark Pearl", result.Name);
                 Assert.Equal("1 Bob Avenue, Auckland", result.Address);
@@ -68,6 +73,16 @@ namespace ToyBlockFactoryKata
             
             Console.WriteLine("Please input the number of Yellow Squares: ");
             var numberYellowSquares = Convert.ToInt32(Console.ReadLine());
+            
+            Console.WriteLine("");
+            Console.WriteLine("Please input the number of Red Triangle: ");
+            var numberRedTriangle = Convert.ToInt32(Console.ReadLine());
+            
+            Console.WriteLine("Please input the number of Blue Triangle: ");
+            var numberBlueTriangle = Convert.ToInt32(Console.ReadLine());
+            
+            Console.WriteLine("Please input the number of Yellow Triangle: ");
+            var numberYellowTriangle = Convert.ToInt32(Console.ReadLine());
             
             return new Order(name, address, dueDate, numberRedSquares, numberBlueSquares, numberYellowSquares);
         }
