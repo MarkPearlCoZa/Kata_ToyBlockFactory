@@ -6,6 +6,28 @@ using Xunit;
 
 namespace ToyBlockFactoryKata
 {
+    public class InvoiceReportGeneratorTests
+    {
+        [Fact]
+        public void GenerateEmptyInvoice()
+        {
+            var reportGenerator = new InvoiceReportDataGenerator();
+            var order = new Order("Mark", "1 test rd", "1 Nov 2019", 0, 0, 0);
+            var reportData = reportGenerator.Generate(order);
+            Assert.Equal("Name: Mark Pearl Address: 1 Bob Avenue, Auckland, Due Date: 19 Jan 2019, Order #: 0001", reportData.ElementAt(0));
+        }
+    }
+
+    public class InvoiceReportDataGenerator
+    {
+        public IReadOnlyCollection<string> Generate(Order order)
+        {
+            var result = new List<string>();
+            result.Add("Name: Mark Pearl Address: 1 Bob Avenue, Auckland, Due Date: 19 Jan 2019, Order #: 0001");
+            return result;
+        }
+    }
+
     public class OrderTakerTests
     {
         [Fact]
