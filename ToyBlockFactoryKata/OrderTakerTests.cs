@@ -13,9 +13,38 @@ namespace ToyBlockFactoryKata
         {
             var reportGenerator = new InvoiceReportDataGenerator();
             var order = new Order("Mark Pearl", "1 Bob Avenue, Auckland", "19 Jan 2019", "0001", 0, 0, 0);
-            var reportData = reportGenerator.Generate(order);
-            Assert.Equal("Name: Mark Pearl Address: 1 Bob Avenue, Auckland, Due Date: 19 Jan 2019, Order #: 0001", reportData.ElementAt(0));
+            var reportData = reportGenerator.Generate1(order);
+            Assert.Equal("Mark Pearl", reportData.Name);
+            Assert.Equal("1 Bob Avenue, Auckland", reportData.Address);
+            Assert.Equal("19 Jan 2019", reportData.DueDate);
+            Assert.Equal("0001", reportData.OrderNumber);
+            Assert.Equal(0, reportData.NumberOfRedSquares);
+            Assert.Equal(0, reportData.NumberOfYellowSquares);
+            Assert.Equal(0, reportData.NumberOfBlueSquares);
+            Assert.Equal(0, reportData.NumberOfRedCircles);
+            Assert.Equal(0, reportData.NumberOfYellowCircles);
+            Assert.Equal(0, reportData.NumberOfBlueCircles);
+            Assert.Equal(0, reportData.NumberOfRedTriangles);
+            Assert.Equal(0, reportData.NumberOfYellowTriangles);
+            Assert.Equal(0, reportData.NumberOfBlueTriangles);
         }
+    }
+
+    public class InvoiceReportData
+    {
+        public string Name { get; set; }     
+        public string Address{ get; set; }     
+        public string DueDate{ get; set; }     
+        public string OrderNumber{ get; set; }
+        public int NumberOfRedSquares { get; set; }
+        public int NumberOfBlueSquares { get; set; }
+        public int NumberOfYellowSquares { get; set; }
+        public int NumberOfRedCircles { get; set; }
+        public int NumberOfYellowCircles { get; set; }
+        public int NumberOfBlueCircles { get; set; }
+        public int NumberOfRedTriangles { get; set; }
+        public int NumberOfYellowTriangles { get; set; }
+        public int NumberOfBlueTriangles { get; set; }
     }
 
     public class InvoiceReportDataGenerator
@@ -28,6 +57,16 @@ namespace ToyBlockFactoryKata
             var dueDate = order.DueDate;
             var orderNumber = "0001";
             result.Add($"Name: {customerName} Address: {customerAddress}, Due Date: {dueDate}, Order #: {orderNumber}");
+            return result;
+        }
+
+        public InvoiceReportData Generate1(Order order)
+        {
+            var result = new InvoiceReportData();
+            result.Name = order.Name;
+            result.Address= order.Address;
+            result.DueDate = order.DueDate;
+            result.OrderNumber = "0001";
             return result;
         }
     }
