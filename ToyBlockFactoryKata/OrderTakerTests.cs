@@ -30,6 +30,8 @@ namespace ToyBlockFactoryKata
             Assert.Equal(0, reportData.TotalSquares);
             Assert.Equal(0, reportData.TotalCircles);
             Assert.Equal(0, reportData.TotalTriangles);
+            Assert.Equal(0, reportData.RedColorSurcharge);
+            Assert.Equal(0, reportData.GrandTotal);
         }
     }
 
@@ -51,6 +53,8 @@ namespace ToyBlockFactoryKata
         public int TotalSquares { get; set; }
         public int TotalCircles { get; set; }
         public int TotalTriangles { get; set; }
+        public int RedColorSurcharge { get; set; }
+        public int GrandTotal { get; set; }
     }
 
     public class InvoiceReportDataGenerator
