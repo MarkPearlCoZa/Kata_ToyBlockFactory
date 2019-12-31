@@ -27,6 +27,9 @@ namespace ToyBlockFactoryKata
             Assert.Equal(0, reportData.NumberOfRedTriangles);
             Assert.Equal(0, reportData.NumberOfYellowTriangles);
             Assert.Equal(0, reportData.NumberOfBlueTriangles);
+            Assert.Equal(0, reportData.TotalSquares);
+            Assert.Equal(0, reportData.TotalCircles);
+            Assert.Equal(0, reportData.TotalTriangles);
         }
     }
 
@@ -45,6 +48,9 @@ namespace ToyBlockFactoryKata
         public int NumberOfRedTriangles { get; set; }
         public int NumberOfYellowTriangles { get; set; }
         public int NumberOfBlueTriangles { get; set; }
+        public int TotalSquares { get; set; }
+        public int TotalCircles { get; set; }
+        public int TotalTriangles { get; set; }
     }
 
     public class InvoiceReportDataGenerator
