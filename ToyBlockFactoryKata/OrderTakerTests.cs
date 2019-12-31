@@ -12,7 +12,7 @@ namespace ToyBlockFactoryKata
         public void GenerateEmptyInvoice()
         {
             var reportGenerator = new InvoiceReportDataGenerator();
-            var order = new Order("Mark", "1 test rd", "1 Nov 2019", 0, 0, 0);
+            var order = new Order("Mark Pearl", "1 Bob Avenue, Auckland", "19 Jan 2019", "0001", 0, 0, 0);
             var reportData = reportGenerator.Generate(order);
             Assert.Equal("Name: Mark Pearl Address: 1 Bob Avenue, Auckland, Due Date: 19 Jan 2019, Order #: 0001", reportData.ElementAt(0));
         }
@@ -23,9 +23,9 @@ namespace ToyBlockFactoryKata
         public IReadOnlyCollection<string> Generate(Order order)
         {
             var result = new List<string>();
-            var customerName = "Mark Pearl";
-            var customerAddress = "1 Bob Avenue, Auckland";
-            var dueDate = "19 Jan 2019";
+            var customerName = order.Name;
+            var customerAddress = order.Address;
+            var dueDate = order.DueDate;
             var orderNumber = "0001";
             result.Add($"Name: {customerName} Address: {customerAddress}, Due Date: {dueDate}, Order #: {orderNumber}");
             return result;
@@ -44,6 +44,7 @@ namespace ToyBlockFactoryKata
                 consoleInput.Add("Mark Pearl");
                 consoleInput.Add("1 Bob Avenue, Auckland");
                 consoleInput.Add("19 Jan 2019");
+                consoleInput.Add("123");
                 consoleInput.Add("1");
                 consoleInput.Add("1");
                 consoleInput.Add("1");
@@ -57,14 +58,15 @@ namespace ToyBlockFactoryKata
                 Assert.Equal("Please input your Name: ", consoleOutput[0]);
                 Assert.Equal("Please input your Address: ", consoleOutput[1]);
                 Assert.Equal("Please input your Due Date: ", consoleOutput[2]);
-                Assert.Equal("", consoleOutput[3]);
-                Assert.Equal("Please input the number of Red Squares: ", consoleOutput[4]);
-                Assert.Equal("Please input the number of Blue Squares: ", consoleOutput[5]);
-                Assert.Equal("Please input the number of Yellow Squares: ", consoleOutput[6]);
-                Assert.Equal("", consoleOutput[7]);
-                Assert.Equal("Please input the number of Red Triangle: ", consoleOutput[8]);
-                Assert.Equal("Please input the number of Blue Triangle: ", consoleOutput[9]);
-                Assert.Equal("Please input the number of Yellow Triangle: ", consoleOutput[10]);
+                Assert.Equal("Please input the Order Number: ", consoleOutput[3]);
+                Assert.Equal("", consoleOutput[4]);
+                Assert.Equal("Please input the number of Red Squares: ", consoleOutput[5]);
+                Assert.Equal("Please input the number of Blue Squares: ", consoleOutput[6]);
+                Assert.Equal("Please input the number of Yellow Squares: ", consoleOutput[7]);
+                Assert.Equal("", consoleOutput[8]);
+                Assert.Equal("Please input the number of Red Triangle: ", consoleOutput[9]);
+                Assert.Equal("Please input the number of Blue Triangle: ", consoleOutput[10]);
+                Assert.Equal("Please input the number of Yellow Triangle: ", consoleOutput[11]);
                 
                 Assert.Equal("Mark Pearl", result.Name);
                 Assert.Equal("1 Bob Avenue, Auckland", result.Address);
@@ -90,6 +92,9 @@ namespace ToyBlockFactoryKata
             Console.WriteLine("Please input your Due Date: ");
             var dueDate = Console.ReadLine();
             
+            Console.WriteLine("Please input the Order Number: ");
+            var orderNumber = Console.ReadLine();
+            
             Console.WriteLine("");
             Console.WriteLine("Please input the number of Red Squares: ");
             var numberRedSquares = Convert.ToInt32(Console.ReadLine());
@@ -110,13 +115,14 @@ namespace ToyBlockFactoryKata
             Console.WriteLine("Please input the number of Yellow Triangle: ");
             var numberYellowTriangle = Convert.ToInt32(Console.ReadLine());
             
-            return new Order(name, address, dueDate, numberRedSquares, numberBlueSquares, numberYellowSquares);
+            return new Order(name, address, dueDate,orderNumber, numberRedSquares, numberBlueSquares, numberYellowSquares);
         }
     }
 
     public class Order
     {
-        public Order(string name, string address, string dueDate, int numberRedSquares, int numberBlueSquares,
+        public Order(string name, string address, string dueDate, string orderNumber, int numberRedSquares,
+            int numberBlueSquares,
             int numberYellowSquares)
         {
             Name = name;
