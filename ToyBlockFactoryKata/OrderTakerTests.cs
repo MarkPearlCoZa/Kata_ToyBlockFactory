@@ -23,7 +23,11 @@ namespace ToyBlockFactoryKata
         public IReadOnlyCollection<string> Generate(Order order)
         {
             var result = new List<string>();
-            result.Add("Name: Mark Pearl Address: 1 Bob Avenue, Auckland, Due Date: 19 Jan 2019, Order #: 0001");
+            var customerName = "Mark Pearl";
+            var customerAddress = "1 Bob Avenue, Auckland";
+            var dueDate = "19 Jan 2019";
+            var orderNumber = "0001";
+            result.Add($"Name: {customerName} Address: {customerAddress}, Due Date: {dueDate}, Order #: {orderNumber}");
             return result;
         }
     }
