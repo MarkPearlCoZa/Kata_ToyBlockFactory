@@ -8,31 +8,23 @@ namespace ToyBlockFactoryKata
 {
     public class InvoiceReportGeneratorTests
     {
-        [Fact]
-        public void GenerateEmptyInvoiceWithNoDetails()
+        [Theory]
+        [InlineData(1,1,1)]
+        [InlineData(2,2,2)]
+        public void GenerateSimpleInvoiceCostingForBlueSquares(int numberOfBlueSquares, int expectedTotalSquares, int expectedCost)
         {
             var reportGenerator = new InvoiceReportDataGenerator();
-            var order = new Order("", "", "", "", 0, 0, 0);
+            var order = new Order("", "", "", "", 0, numberOfBlueSquares, 0);
             var reportData = reportGenerator.Generate(order);
-            Assert.Equal("", reportData.Name);
-            Assert.Equal("", reportData.Address);
-            Assert.Equal("", reportData.DueDate);
-            Assert.Equal("", reportData.OrderNumber);
             Assert.Equal(0, reportData.NumberOfRedSquares);
             Assert.Equal(0, reportData.NumberOfYellowSquares);
-            Assert.Equal(0, reportData.NumberOfBlueSquares);
-            Assert.Equal(0, reportData.NumberOfRedCircles);
-            Assert.Equal(0, reportData.NumberOfYellowCircles);
-            Assert.Equal(0, reportData.NumberOfBlueCircles);
-            Assert.Equal(0, reportData.NumberOfRedTriangles);
-            Assert.Equal(0, reportData.NumberOfYellowTriangles);
-            Assert.Equal(0, reportData.NumberOfBlueTriangles);
-            Assert.Equal(0, reportData.TotalSquares);
+            Assert.Equal(numberOfBlueSquares, reportData.NumberOfBlueSquares);
+            Assert.Equal(expectedTotalSquares, reportData.TotalSquares);
             Assert.Equal(0, reportData.TotalCircles);
             Assert.Equal(0, reportData.TotalTriangles);
-            Assert.Equal(0, reportData.RedColorSurcharge);
-            Assert.Equal(0, reportData.GrandTotal);
+            Assert.Equal(expectedCost, reportData.GrandTotal);
         }
+
         [Fact]
         
         public void GenerateEmptyInvoiceWithJobDetails()
@@ -59,13 +51,39 @@ namespace ToyBlockFactoryKata
             Assert.Equal(0, reportData.RedColorSurcharge);
             Assert.Equal(0, reportData.GrandTotal);
         }
+
+        [Fact]
+        public void GenerateEmptyInvoiceWithNoDetails()
+        {
+            var reportGenerator = new InvoiceReportDataGenerator();
+            var order = new Order("", "", "", "", 0, 0, 0);
+            var reportData = reportGenerator.Generate(order);
+            Assert.Equal("", reportData.Name);
+            Assert.Equal("", reportData.Address);
+            Assert.Equal("", reportData.DueDate);
+            Assert.Equal("", reportData.OrderNumber);
+            Assert.Equal(0, reportData.NumberOfRedSquares);
+            Assert.Equal(0, reportData.NumberOfYellowSquares);
+            Assert.Equal(0, reportData.NumberOfBlueSquares);
+            Assert.Equal(0, reportData.NumberOfRedCircles);
+            Assert.Equal(0, reportData.NumberOfYellowCircles);
+            Assert.Equal(0, reportData.NumberOfBlueCircles);
+            Assert.Equal(0, reportData.NumberOfRedTriangles);
+            Assert.Equal(0, reportData.NumberOfYellowTriangles);
+            Assert.Equal(0, reportData.NumberOfBlueTriangles);
+            Assert.Equal(0, reportData.TotalSquares);
+            Assert.Equal(0, reportData.TotalCircles);
+            Assert.Equal(0, reportData.TotalTriangles);
+            Assert.Equal(0, reportData.RedColorSurcharge);
+            Assert.Equal(0, reportData.GrandTotal);
+        }
     }
 
     public class InvoiceReportData
     {
-        public string Name { get; set; }     
-        public string Address{ get; set; }     
-        public string DueDate{ get; set; }     
+        public string Name { get; set; }
+        public string Address{ get; set; }
+        public string DueDate{ get; set; }
         public string OrderNumber{ get; set; }
         public int NumberOfRedSquares { get; set; }
         public int NumberOfBlueSquares { get; set; }
@@ -76,11 +94,20 @@ namespace ToyBlockFactoryKata
         public int NumberOfRedTriangles { get; set; }
         public int NumberOfYellowTriangles { get; set; }
         public int NumberOfBlueTriangles { get; set; }
-        public int TotalSquares { get; set; }
+
+        public int TotalSquares
+        {
+            get { return NumberOfBlueSquares; }
+        }
+
         public int TotalCircles { get; set; }
         public int TotalTriangles { get; set; }
         public int RedColorSurcharge { get; set; }
-        public int GrandTotal { get; set; }
+
+        public int GrandTotal
+        {
+            get { return TotalSquares; }
+        }
     }
 
     public class InvoiceReportDataGenerator
@@ -92,6 +119,7 @@ namespace ToyBlockFactoryKata
             result.Address= order.Address;
             result.DueDate = order.DueDate;
             result.OrderNumber = order.OrderNumber;
+            result.NumberOfBlueSquares = order.NumberBlueSquares;
             return result;
         }
     }
