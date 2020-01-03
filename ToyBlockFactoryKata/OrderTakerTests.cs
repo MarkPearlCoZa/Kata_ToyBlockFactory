@@ -16,8 +16,6 @@ namespace ToyBlockFactoryKata
             var reportGenerator = new InvoiceReportDataGenerator();
             var order = new Order("", "", "", "", 0, numberOfBlueSquares, 0);
             var reportData = reportGenerator.Generate(order);
-            Assert.Equal(0, reportData.NumberOfRedSquares);
-            Assert.Equal(0, reportData.NumberOfYellowSquares);
             Assert.Equal(numberOfBlueSquares, reportData.NumberOfBlueSquares);
             Assert.Equal(expectedTotalSquares, reportData.TotalSquares);
             Assert.Equal(0, reportData.TotalCircles);
@@ -35,8 +33,6 @@ namespace ToyBlockFactoryKata
             var order = new Order("", "", "", "",
                 0, 0, numberOfYellowSquares);
             var reportData = reportGenerator.Generate(order);
-            Assert.Equal(0, reportData.NumberOfRedSquares);
-            Assert.Equal(0, reportData.NumberOfBlueSquares);
             Assert.Equal(numberOfYellowSquares, reportData.NumberOfYellowSquares);
             Assert.Equal(expectedTotalSquares, reportData.TotalSquares);
             Assert.Equal(0, reportData.TotalCircles);
@@ -55,8 +51,6 @@ namespace ToyBlockFactoryKata
                 numberOfRedSquares, 0, 0);
             var reportData = reportGenerator.Generate(order);
             Assert.Equal(numberOfRedSquares, reportData.NumberOfRedSquares);
-            Assert.Equal(0, reportData.NumberOfBlueSquares);
-            Assert.Equal(0, reportData.NumberOfYellowSquares);
             Assert.Equal(expectedTotalSquares, reportData.TotalSquares);
             Assert.Equal(0, reportData.TotalCircles);
             Assert.Equal(0, reportData.TotalTriangles);
