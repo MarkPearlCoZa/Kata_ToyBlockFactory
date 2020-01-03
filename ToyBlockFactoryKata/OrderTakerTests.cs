@@ -22,6 +22,7 @@ namespace ToyBlockFactoryKata
             Assert.Equal(expectedTotalSquares, reportData.TotalSquares);
             Assert.Equal(0, reportData.TotalCircles);
             Assert.Equal(0, reportData.TotalTriangles);
+            Assert.Equal(expectedCost, reportData.TotalCostForSquares);
             Assert.Equal(expectedCost, reportData.GrandTotal);
         }
         
@@ -40,7 +41,27 @@ namespace ToyBlockFactoryKata
             Assert.Equal(expectedTotalSquares, reportData.TotalSquares);
             Assert.Equal(0, reportData.TotalCircles);
             Assert.Equal(0, reportData.TotalTriangles);
+            Assert.Equal(expectedCost, reportData.TotalCostForSquares);
             Assert.Equal(expectedCost, reportData.GrandTotal);
+        }
+        
+        [Theory]
+        [InlineData(1,1,2,1,1)]
+        [InlineData(2,2,4,2,2)]
+        public void GenerateSimpleInvoiceCostingForRedSquares(int numberOfRedSquares, int expectedTotalSquares, int expectedGrandTotal, int expectedRedColorSurcharge, int expectedTotalCostForSquares)
+        {
+            var reportGenerator = new InvoiceReportDataGenerator();
+            var order = new Order("", "", "", "",
+                numberOfRedSquares, 0, 0);
+            var reportData = reportGenerator.Generate(order);
+            Assert.Equal(numberOfRedSquares, reportData.NumberOfRedSquares);
+            Assert.Equal(0, reportData.NumberOfBlueSquares);
+            Assert.Equal(0, reportData.NumberOfYellowSquares);
+            Assert.Equal(expectedTotalSquares, reportData.TotalSquares);
+            Assert.Equal(0, reportData.TotalCircles);
+            Assert.Equal(0, reportData.TotalTriangles);
+            Assert.Equal(expectedRedColorSurcharge, reportData.RedColorSurcharge);
+            Assert.Equal(expectedGrandTotal, reportData.GrandTotal);
         }
 
         [Fact]
@@ -113,16 +134,22 @@ namespace ToyBlockFactoryKata
         public int NumberOfYellowTriangles { get; set; }
         public int NumberOfBlueTriangles { get; set; }
 
-        public int TotalSquares => NumberOfBlueSquares + NumberOfYellowSquares;
+        public int TotalSquares => NumberOfBlueSquares + NumberOfYellowSquares + NumberOfRedSquares;
 
         public int TotalCircles { get; set; }
         public int TotalTriangles { get; set; }
-        public int RedColorSurcharge { get; set; }
-
-        public int GrandTotal
+        public int RedColorSurcharge
         {
-            get { return TotalSquares; }
+            get
+            {
+                const int redSurchargeAmountPerItem = 1;
+                return (NumberOfRedCircles + NumberOfRedSquares + NumberOfRedTriangles) * redSurchargeAmountPerItem;
+            }
         }
+
+        public int TotalCostForSquares => 1 * TotalSquares;
+
+        public int GrandTotal => TotalCostForSquares + RedColorSurcharge;
     }
 
     public class InvoiceReportDataGenerator
@@ -136,6 +163,7 @@ namespace ToyBlockFactoryKata
             result.OrderNumber = order.OrderNumber;
             result.NumberOfBlueSquares = order.NumberBlueSquares;
             result.NumberOfYellowSquares = order.NumberYellowSquares;
+            result.NumberOfRedSquares = order.NumberRedSquares;
             return result;
         }
     }
