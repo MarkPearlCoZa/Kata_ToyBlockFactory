@@ -12,12 +12,12 @@ namespace ToyBlockFactoryKata
         public void GenerateEmptyInvoice()
         {
             var reportGenerator = new InvoiceReportDataGenerator();
-            var order = new Order("Mark Pearl", "1 Bob Avenue, Auckland", "19 Jan 2019", "0001", 0, 0, 0);
-            var reportData = reportGenerator.Generate1(order);
-            Assert.Equal("Mark Pearl", reportData.Name);
-            Assert.Equal("1 Bob Avenue, Auckland", reportData.Address);
-            Assert.Equal("19 Jan 2019", reportData.DueDate);
-            Assert.Equal("0001", reportData.OrderNumber);
+            var order = new Order("", "", "", "", 0, 0, 0);
+            var reportData = reportGenerator.Generate(order);
+            Assert.Equal("", reportData.Name);
+            Assert.Equal("", reportData.Address);
+            Assert.Equal("", reportData.DueDate);
+            Assert.Equal("", reportData.OrderNumber);
             Assert.Equal(0, reportData.NumberOfRedSquares);
             Assert.Equal(0, reportData.NumberOfYellowSquares);
             Assert.Equal(0, reportData.NumberOfBlueSquares);
@@ -59,24 +59,13 @@ namespace ToyBlockFactoryKata
 
     public class InvoiceReportDataGenerator
     {
-        public IReadOnlyCollection<string> Generate(Order order)
-        {
-            var result = new List<string>();
-            var customerName = order.Name;
-            var customerAddress = order.Address;
-            var dueDate = order.DueDate;
-            var orderNumber = "0001";
-            result.Add($"Name: {customerName} Address: {customerAddress}, Due Date: {dueDate}, Order #: {orderNumber}");
-            return result;
-        }
-
-        public InvoiceReportData Generate1(Order order)
+        public InvoiceReportData Generate(Order order)
         {
             var result = new InvoiceReportData();
             result.Name = order.Name;
             result.Address= order.Address;
             result.DueDate = order.DueDate;
-            result.OrderNumber = "0001";
+            result.OrderNumber = order.OrderNumber;
             return result;
         }
     }
@@ -177,6 +166,7 @@ namespace ToyBlockFactoryKata
             Name = name;
             Address = address;
             DueDate = dueDate;
+            OrderNumber = orderNumber;
             NumberRedSquares = numberRedSquares;
             NumberBlueSquares = numberBlueSquares;
             NumberYellowSquares = numberYellowSquares;
@@ -185,6 +175,7 @@ namespace ToyBlockFactoryKata
         public String Name { get; }
         public string Address { get; }
         public string DueDate { get; }
+        public string OrderNumber { get; }
         public int NumberRedSquares { get; }
         public int NumberBlueSquares { get; }
         public int NumberYellowSquares { get; }
