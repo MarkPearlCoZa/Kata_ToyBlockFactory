@@ -9,7 +9,7 @@ namespace ToyBlockFactoryKata
     public class InvoiceReportGeneratorTests
     {
         [Fact]
-        public void GenerateEmptyInvoice()
+        public void GenerateEmptyInvoiceWithNoDetails()
         {
             var reportGenerator = new InvoiceReportDataGenerator();
             var order = new Order("", "", "", "", 0, 0, 0);
@@ -18,6 +18,32 @@ namespace ToyBlockFactoryKata
             Assert.Equal("", reportData.Address);
             Assert.Equal("", reportData.DueDate);
             Assert.Equal("", reportData.OrderNumber);
+            Assert.Equal(0, reportData.NumberOfRedSquares);
+            Assert.Equal(0, reportData.NumberOfYellowSquares);
+            Assert.Equal(0, reportData.NumberOfBlueSquares);
+            Assert.Equal(0, reportData.NumberOfRedCircles);
+            Assert.Equal(0, reportData.NumberOfYellowCircles);
+            Assert.Equal(0, reportData.NumberOfBlueCircles);
+            Assert.Equal(0, reportData.NumberOfRedTriangles);
+            Assert.Equal(0, reportData.NumberOfYellowTriangles);
+            Assert.Equal(0, reportData.NumberOfBlueTriangles);
+            Assert.Equal(0, reportData.TotalSquares);
+            Assert.Equal(0, reportData.TotalCircles);
+            Assert.Equal(0, reportData.TotalTriangles);
+            Assert.Equal(0, reportData.RedColorSurcharge);
+            Assert.Equal(0, reportData.GrandTotal);
+        }
+        [Fact]
+        
+        public void GenerateEmptyInvoiceWithJobDetails()
+        {
+            var reportGenerator = new InvoiceReportDataGenerator();
+            var order = new Order("Mark Pearl", "3 Vinewood Dr", "19 Jan 1980", "123", 0, 0, 0);
+            var reportData = reportGenerator.Generate(order);
+            Assert.Equal("Mark Pearl", reportData.Name);
+            Assert.Equal("3 Vinewood Dr", reportData.Address);
+            Assert.Equal("19 Jan 1980", reportData.DueDate);
+            Assert.Equal("123", reportData.OrderNumber);
             Assert.Equal(0, reportData.NumberOfRedSquares);
             Assert.Equal(0, reportData.NumberOfYellowSquares);
             Assert.Equal(0, reportData.NumberOfBlueSquares);
