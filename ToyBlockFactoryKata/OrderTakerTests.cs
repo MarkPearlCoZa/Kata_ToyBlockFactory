@@ -27,6 +27,24 @@ namespace ToyBlockFactoryKata
         [Theory]
         [InlineData(1, 1, 2, 2)]
         [InlineData(2, 2, 4, 4)]
+        public void GenerateSimpleInvoiceCostingForYellowTriangles(int numberOfYellowTriangles, 
+            int expectedTotalTriangles, int expectedTotalCostForTriangles, int expectedGrandTotal)
+        {
+            var reportGenerator = new InvoiceReportDataGenerator();
+            var order = new Order("", "", "", "",
+                0, 0, 0, 0, 0, 0, 0, 0, numberOfYellowTriangles);
+            var reportData = reportGenerator.Generate(order);
+            Assert.Equal(numberOfYellowTriangles, reportData.NumberOfYellowTriangles);
+            Assert.Equal(0, reportData.TotalSquares);
+            Assert.Equal(0, reportData.TotalCircles);
+            Assert.Equal(expectedTotalTriangles, reportData.TotalTriangles);
+            Assert.Equal(expectedTotalCostForTriangles, reportData.TotalCostForTriangles);
+            Assert.Equal(expectedGrandTotal, reportData.GrandTotal);
+        }
+        
+        [Theory]
+        [InlineData(1, 1, 2, 2)]
+        [InlineData(2, 2, 4, 4)]
         public void GenerateSimpleInvoiceCostingForBlueTriangles(int numberOfBlueTriangles, 
             int expectedTotalTriangles, int expectedTotalCostForTriangles, int expectedGrandTotal)
         {
@@ -220,7 +238,7 @@ namespace ToyBlockFactoryKata
             get { return NumberOfYellowCircles + NumberOfBlueCircles + NumberOfRedCircles; }
         }
 
-        public int TotalTriangles => NumberOfRedTriangles + NumberOfBlueTriangles;
+        public int TotalTriangles => NumberOfRedTriangles + NumberOfBlueTriangles + NumberOfYellowTriangles;
 
         public int RedColorSurcharge
         {
@@ -256,6 +274,7 @@ namespace ToyBlockFactoryKata
             result.NumberOfRedCircles = order.NumberRedCircles;
             result.NumberOfRedTriangles = order.NumberRedTriangles;
             result.NumberOfBlueTriangles = order.NumberBlueTriangles;
+            result.NumberOfYellowTriangles = order.NumberYellowTriangles;
             return result;
         }
     }
@@ -352,7 +371,7 @@ namespace ToyBlockFactoryKata
         public Order(string name, string address, string dueDate, string orderNumber, int numberRedSquares,
             int numberBlueSquares,
             int numberYellowSquares, int numberYellowCircles, int numberBlueCircles, int numberRedCircles,
-            int numberRedTriangles, int numberBlueTriangles)
+            int numberRedTriangles, int numberBlueTriangles, int numberYellowTriangles = 0)
         {
             Name = name;
             Address = address;
@@ -366,6 +385,7 @@ namespace ToyBlockFactoryKata
             NumberRedCircles = numberRedCircles;
             NumberRedTriangles = numberRedTriangles;
             NumberBlueTriangles = numberBlueTriangles;
+            NumberYellowTriangles = numberYellowTriangles;
         }
 
         public int NumberBlueCircles { get; set; }
@@ -380,5 +400,6 @@ namespace ToyBlockFactoryKata
         public int NumberYellowCircles { get; }
         public int NumberRedTriangles { get; }
         public int NumberBlueTriangles { get; }
+        public int NumberYellowTriangles { get; }
     }
 }
