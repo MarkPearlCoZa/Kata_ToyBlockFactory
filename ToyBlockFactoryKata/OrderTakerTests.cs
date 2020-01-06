@@ -163,10 +163,7 @@ namespace ToyBlockFactoryKata
 
         public int TotalCircles
         {
-            get
-            {
-                return NumberOfYellowCircles;
-            }
+            get { return NumberOfYellowCircles + NumberOfBlueCircles; }
         }
 
         public int TotalTriangles { get; set; }
@@ -198,6 +195,7 @@ namespace ToyBlockFactoryKata
             result.NumberOfYellowSquares = order.NumberYellowSquares;
             result.NumberOfRedSquares = order.NumberRedSquares;
             result.NumberOfYellowCircles = order.NumberYellowCircles;
+            result.NumberOfBlueCircles = order.NumberBlueCircles;
             return result;
         }
     }
