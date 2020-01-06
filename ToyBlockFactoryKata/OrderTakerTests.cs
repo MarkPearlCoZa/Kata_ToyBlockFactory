@@ -14,7 +14,7 @@ namespace ToyBlockFactoryKata
         public void GenerateSimpleInvoiceCostingForBlueSquares(int numberOfBlueSquares, int expectedTotalSquares, int expectedCost)
         {
             var reportGenerator = new InvoiceReportDataGenerator();
-            var order = new Order("", "", "", "", 0, numberOfBlueSquares, 0, 0, 0);
+            var order = new Order("", "", "", "", 0, numberOfBlueSquares, 0, 0, 0, 0);
             var reportData = reportGenerator.Generate(order);
             Assert.Equal(numberOfBlueSquares, reportData.NumberOfBlueSquares);
             Assert.Equal(expectedTotalSquares, reportData.TotalSquares);
@@ -25,13 +25,30 @@ namespace ToyBlockFactoryKata
         }
         
         [Theory]
+        [InlineData(1,1, 1, 3, 4)]
+        [InlineData(2,2, 2, 6, 8)]
+        public void GenerateSimpleInvoiceCostingForRedCircles(int numberOfRedCircles, int expectedRedColorSurcharge,
+            int expectedTotalCircles, int expectedTotalCostForCircles, int expectedGrandTotal)
+        {
+            var reportGenerator = new InvoiceReportDataGenerator();
+            var order = new Order("", "", "", "",
+                0, 0, 0, 0, 0, numberOfRedCircles);
+            var reportData = reportGenerator.Generate(order);
+            Assert.Equal(numberOfRedCircles, reportData.NumberOfRedCircles);
+            Assert.Equal(0, reportData.TotalSquares);
+            Assert.Equal(expectedTotalCircles, reportData.TotalCircles);
+            Assert.Equal(0, reportData.TotalTriangles);
+            Assert.Equal(expectedTotalCostForCircles, reportData.TotalCostForCircles);
+            Assert.Equal(expectedRedColorSurcharge, reportData.RedColorSurcharge);
+            Assert.Equal(expectedGrandTotal, reportData.GrandTotal);
+        }
+        [Theory]
         [InlineData(1,1,3)]
         [InlineData(2,2,6)]
         public void GenerateSimpleInvoiceCostingForBlueCircles(int numberOfBlueCircles, int expectedTotalCircles, int expectedCost)
         {
             var reportGenerator = new InvoiceReportDataGenerator();
-            var order = new Order("", "", "", "",
-                0, 0, 0, 0, numberOfBlueCircles);
+            var order = new Order("", "", "", "", 0, 0, 0, 0, numberOfBlueCircles, 0);
             var reportData = reportGenerator.Generate(order);
             Assert.Equal(numberOfBlueCircles, reportData.NumberOfBlueCircles);
             Assert.Equal(0, reportData.TotalSquares);
@@ -47,7 +64,7 @@ namespace ToyBlockFactoryKata
         public void GenerateSimpleInvoiceCostingForYellowCircles(int numberOfYellowCircles, int expectedTotalCircles, int expectedCost)
         {
             var reportGenerator = new InvoiceReportDataGenerator();
-            var order = new Order("", "", "", "", 0, 0, 0, numberOfYellowCircles, 0);
+            var order = new Order("", "", "", "", 0, 0, 0, numberOfYellowCircles, 0, 0 );
             var reportData = reportGenerator.Generate(order);
             Assert.Equal(numberOfYellowCircles, reportData.NumberOfYellowCircles);
             Assert.Equal(0, reportData.TotalSquares);
@@ -63,7 +80,7 @@ namespace ToyBlockFactoryKata
         public void GenerateSimpleInvoiceCostingForYellowSquares(int numberOfYellowSquares, int expectedTotalSquares, int expectedCost)
         {
             var reportGenerator = new InvoiceReportDataGenerator();
-            var order = new Order("", "", "", "", 0, 0, numberOfYellowSquares, 0, 0);
+            var order = new Order("", "", "", "", 0, 0, numberOfYellowSquares, 0, 0, 0);
             var reportData = reportGenerator.Generate(order);
             Assert.Equal(numberOfYellowSquares, reportData.NumberOfYellowSquares);
             Assert.Equal(expectedTotalSquares, reportData.TotalSquares);
@@ -79,7 +96,7 @@ namespace ToyBlockFactoryKata
         public void GenerateSimpleInvoiceCostingForRedSquares(int numberOfRedSquares, int expectedTotalSquares, int expectedGrandTotal, int expectedRedColorSurcharge, int expectedTotalCostForSquares)
         {
             var reportGenerator = new InvoiceReportDataGenerator();
-            var order = new Order("", "", "", "", numberOfRedSquares, 0, 0, 0, 0);
+            var order = new Order("", "", "", "", numberOfRedSquares, 0, 0, 0, 0, 0);
             var reportData = reportGenerator.Generate(order);
             Assert.Equal(numberOfRedSquares, reportData.NumberOfRedSquares);
             Assert.Equal(expectedTotalSquares, reportData.TotalSquares);
@@ -94,7 +111,7 @@ namespace ToyBlockFactoryKata
         public void GenerateEmptyInvoiceWithJobDetails()
         {
             var reportGenerator = new InvoiceReportDataGenerator();
-            var order = new Order("Mark Pearl", "3 Vinewood Dr", "19 Jan 1980", "123", 0, 0, 0, 0, 0);
+            var order = new Order("Mark Pearl", "3 Vinewood Dr", "19 Jan 1980", "123", 0, 0, 0, 0, 0, 0);
             var reportData = reportGenerator.Generate(order);
             Assert.Equal("Mark Pearl", reportData.Name);
             Assert.Equal("3 Vinewood Dr", reportData.Address);
@@ -120,7 +137,7 @@ namespace ToyBlockFactoryKata
         public void GenerateEmptyInvoiceWithNoDetails()
         {
             var reportGenerator = new InvoiceReportDataGenerator();
-            var order = new Order("", "", "", "", 0, 0, 0, 0, 0);
+            var order = new Order("", "", "", "", 0, 0, 0, 0, 0, 0);
             var reportData = reportGenerator.Generate(order);
             Assert.Equal("", reportData.Name);
             Assert.Equal("", reportData.Address);
@@ -163,7 +180,7 @@ namespace ToyBlockFactoryKata
 
         public int TotalCircles
         {
-            get { return NumberOfYellowCircles + NumberOfBlueCircles; }
+            get { return NumberOfYellowCircles + NumberOfBlueCircles + NumberOfRedCircles; }
         }
 
         public int TotalTriangles { get; set; }
@@ -196,6 +213,7 @@ namespace ToyBlockFactoryKata
             result.NumberOfRedSquares = order.NumberRedSquares;
             result.NumberOfYellowCircles = order.NumberYellowCircles;
             result.NumberOfBlueCircles = order.NumberBlueCircles;
+            result.NumberOfRedCircles = order.NumberRedCircles;
             return result;
         }
     }
@@ -283,7 +301,7 @@ namespace ToyBlockFactoryKata
             Console.WriteLine("Please input the number of Yellow Triangle: ");
             var numberYellowTriangle = Convert.ToInt32(Console.ReadLine());
             
-            return new Order(name, address, dueDate,orderNumber, numberRedSquares, numberBlueSquares, numberYellowSquares, 0, 0);
+            return new Order(name, address, dueDate,orderNumber, numberRedSquares, numberBlueSquares, numberYellowSquares, 0, 0, 0);
         }
     }
 
@@ -291,7 +309,7 @@ namespace ToyBlockFactoryKata
     {
         public Order(string name, string address, string dueDate, string orderNumber, int numberRedSquares,
             int numberBlueSquares,
-            int numberYellowSquares, int numberYellowCircles, int numberBlueCircles)
+            int numberYellowSquares, int numberYellowCircles, int numberBlueCircles, int numberRedCircles)
         {
             Name = name;
             Address = address;
@@ -302,9 +320,11 @@ namespace ToyBlockFactoryKata
             NumberYellowSquares = numberYellowSquares;
             NumberYellowCircles = numberYellowCircles;
             NumberBlueCircles = numberBlueCircles;
+            NumberRedCircles = numberRedCircles;
         }
 
         public int NumberBlueCircles { get; set; }
+        public int NumberRedCircles { get; }
 
         public String Name { get; }
         public string Address { get; }
