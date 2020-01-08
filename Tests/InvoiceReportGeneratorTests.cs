@@ -153,6 +153,7 @@ namespace ToyBlockFactoryKata
             Assert.Equal(expectedTotalSquares, reportData.TotalSquares);
             Assert.Equal(0, reportData.TotalCircles);
             Assert.Equal(0, reportData.TotalTriangles);
+            Assert.Equal(expectedTotalCostForSquares, reportData.TotalCostForSquares);
             Assert.Equal(expectedRedColorSurcharge, reportData.RedColorSurcharge);
             Assert.Equal(expectedGrandTotal, reportData.GrandTotal);
         }
